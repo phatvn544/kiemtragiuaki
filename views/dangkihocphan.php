@@ -20,6 +20,10 @@ $query = "
 $stmt = $conn->prepare($query);
 $stmt->execute([$MaSV]);
 $dangkyhocphans = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Tính tổng số học phần và tổng số tín chỉ
+$tongHocPhan = count($dangkyhocphans);
+$tongTinChi = array_sum(array_column($dangkyhocphans, 'SoTinChi'));
 ?>
 
 <!DOCTYPE html>
@@ -62,6 +66,10 @@ $dangkyhocphans = $stmt->fetchAll(PDO::FETCH_ASSOC);
             margin-top: 10px;
             border-radius: 5px;
         }
+        .summary {
+            margin-top: 10px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -91,6 +99,12 @@ $dangkyhocphans = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </tr>
             <?php endforeach; ?>
         </table>
+
+        <!-- Hiển thị tổng tín chỉ và tổng học phần -->
+        <div class="summary">
+            <p>Số học phần: <span style="color: red;"><?= $tongHocPhan ?></span></p>
+            <p>Tổng số tín chỉ: <span style="color: red;"><?= $tongTinChi ?></span></p>
+        </div>
 
         <a href="xoadangky.php" class="btn-clear">Xóa Đăng Ký</a>
     <?php endif; ?>
